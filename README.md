@@ -27,11 +27,7 @@ Build-time
 ----------
   * C++11 compiler (GCC 4.8.1+, Clang 3.3+)
   * POSIX `sh(1p)`, `make(1p)`, and "mandatory utilities"
-
-**Note:**
-Consumers of `libpkgcore` (such as `pkgadd(8)`, `pkgrm(8)`, etc.)
-require `libarchive(3)` and may use `pkg-config(1)` for static
-linking.  These are not required to build the library itself.
+  * `libarchive(3)` headers and library
 
 ---
 
