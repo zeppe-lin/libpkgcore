@@ -8,8 +8,9 @@
  *
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
-#include "db_lock.h"
-#include "pkgutil.h"  // pkgutil::PKG_DIR
+#include "pkgcore/db_lock.h"
+#include "pkgcore/fs_utils.h" // For trim_filename
+#include "pkgcore/pkgutil.h"  // pkgutil::PKG_DIR
 
 #include <stdexcept>  // For std::runtime_error
 #include <string>
@@ -20,9 +21,6 @@
 #include <iostream>   // XXX For cerr in debug
                       // XXX (consider removing in final version)
 #include <cstring>
-
-#include "fs_utils.h" // For trim_filename
-
 
 /*!
  * \brief Constructor for the db_lock class, acquires a lock on the
