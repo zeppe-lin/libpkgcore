@@ -244,8 +244,8 @@ public:
   void pkg_footprint(const std::string& filename) const;
 
   /*!
-   * \brief Prints the versions of the pkgutil library and utility
-   *        name.
+   * \brief Prints the versions of the pkgutil library and
+   *        enabled/disabled features.
    */
   void print_version() const;
 
