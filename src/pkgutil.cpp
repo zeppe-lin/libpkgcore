@@ -10,9 +10,9 @@
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
 
-#include "db_lock.h"
-#include "fs_utils.h"
-#include "pkgutil.h"
+#include "pkgcore/db_lock.h"
+#include "pkgcore/fs_utils.h"
+#include "pkgcore/pkgutil.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -1637,44 +1637,20 @@ pkgutil::pkg_footprint(const std::string& filename)
 }
 
 /*!
- * \brief Prints the versions of the pkgutil library and utility name.
+ * \brief Prints the versions of the pkgutil library and
+ *        enabled/disabled features.
  */
 void
 pkgutil::print_version()
     const
 {
-  std::ostringstream version_stream;
-
-  version_stream << utilname << " from pkgutils " << VERSION
-                 << " (libpkgutils " << LIB_VERSION;
-
-  std::vector<std::string> options;
-
+  std::cout << NAME << " " << VERSION << std::endl;
+  std::cout << "Features:";
 #ifdef ENABLE_EXTRACT_ACL
-  options.push_back("acl");
+  std::cout << " acl";
 #endif
-
 #ifdef ENABLE_EXTRACT_XATTR
-  options.push_back("xattr");
+  std::cout << " xattr";
 #endif
-
-#ifndef NDEBUG
-  options.push_back("debug");
-#endif
-
-  if (!options.empty())
-  {
-    version_stream << ": ";
-
-    // join options with commas
-    for (size_t i = 0; i < options.size(); ++i)
-    {
-      version_stream << options[i];
-      if (i < options.size() - 1)
-        version_stream << ", ";
-    }
-  }
-
-  version_stream << ")";
-  std::cout << version_stream.str() << std::endl;
+  std::cout << std::endl;
 }
