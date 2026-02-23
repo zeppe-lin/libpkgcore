@@ -1,0 +1,9 @@
+prefix=@PREFIX@
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: libpkgcore
+Description: Core package management library
+Version: @VERSION@
+Libs: -L${libdir} -lpkgcore -larchive
+Cflags: -I${includedir} -I${includedir}/pkgcore
