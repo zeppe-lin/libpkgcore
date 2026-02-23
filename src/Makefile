@@ -5,7 +5,7 @@ include ../config.mk
 #include ../extra/flags-extra.mk
 #include ../extra/flags-sanitizer.mk
 
-LIB  = libpkgcore.a
+LIB  = $(NAME).a
 OBJS = db_lock.o fs_utils.o pkgutil.o
 
 all: $(LIB)
