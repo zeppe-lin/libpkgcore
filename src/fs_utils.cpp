@@ -11,7 +11,7 @@
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
 
-#include "fs_utils.h"
+#include "pkgcore/fs_utils.h"
 
 #include <cstring>
 #include <fstream>
