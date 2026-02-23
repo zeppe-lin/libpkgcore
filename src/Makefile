@@ -5,48 +5,25 @@ include ../config.mk
 #include ../extra/flags-extra.mk
 #include ../extra/flags-sanitizer.mk
 
-OBJS = pkgutil.o pkgadd.o pkgrm.o pkgchk.o pkginfo.o
-BIN1 = pkgchk pkginfo
-BIN8 = pkgadd pkgrm
+LIB  = libpkgcore.a
+OBJS = db_lock.o fs_utils.o pkgutil.o
 
-LIB_DIR      = ./libpkgutils
-LIB_TARGET   = $(LIB_DIR)/libpkgutils.a
-LIB_CPPFLAGS = -I$(LIB_DIR)
-
-all: $(BIN1) $(BIN8)
+all: $(LIB)
 
 .cpp.o:
-	$(CXX) -c $< $(LIB_CPPFLAGS) $(CPPFLAGS) $(CXXFLAGS)
+	$(CXX) -c $< -I../include $(CPPFLAGS) $(CXXFLAGS)
 
-$(LIB_TARGET):
-	cd $(LIB_DIR) && $(MAKE)
-
-pkgadd: pkgadd.o $(LIB_TARGET)
-	$(CXX) $^ $(LDFLAGS) -o $@
-
-pkgrm: pkgrm.o $(LIB_TARGET)
-	$(CXX) $^ $(LDFLAGS) -o $@
-
-pkginfo: pkginfo.o $(LIB_TARGET)
-	$(CXX) $^ $(LDFLAGS) -o $@
-
-pkgchk: pkgchk.o $(LIB_TARGET)
-	$(CXX) $^ $(LDFLAGS) -o $@
+$(LIB): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
 
 install: all
-	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	mkdir -p $(DESTDIR)$(PREFIX)/sbin
-	cp -f $(BIN1) $(DESTDIR)$(PREFIX)/bin
-	cp -f $(BIN8) $(DESTDIR)$(PREFIX)/sbin
-	cd $(DESTDIR)$(PREFIX)/bin && chmod 0755 $(BIN1)
-	cd $(DESTDIR)$(PREFIX)/sbin && chmod 0755 $(BIN8)
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	cp -f $(LIB) $(DESTDIR)$(PREFIX)/lib
 
 uninstall:
-	cd $(DESTDIR)$(PREFIX)/bin  && rm -f $(BIN1)
-	cd $(DESTDIR)$(PREFIX)/sbin && rm -f $(BIN8)
+	cd $(DESTDIR)$(PREFIX)/lib  && rm -f $(LIB)
 
 clean:
-	rm -f $(OBJS) $(BIN1) $(BIN8)
-	cd $(LIB_DIR) && $(MAKE) clean
+	rm -f $(OBJS) $(LIB)
 
 .PHONY: all install uninstall clean
