@@ -36,6 +36,9 @@ jobs:
       - name: Build (glibc)
         run: make -C src
 
+      - name: Build with enabled ACL and xattr
+        run: make -C src ACL=y XATTR=y clean all
+
   build-musl:
     runs-on: ubuntu-latest
     container: alpine:latest
@@ -47,4 +50,7 @@ jobs:
 
       - name: Build (musl)
         run: make -C src
+
+      - name: Build with enabled ACL and xattr
+        run: make -C src ACL=y XATTR=y clean all
 
