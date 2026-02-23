@@ -10,8 +10,7 @@
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
 
-#ifndef PKGUTIL_H
-#define PKGUTIL_H
+#pragma once
 
 #include <map>
 #include <set>
@@ -357,5 +356,3 @@ private:
     archive_read_support_filter_zstd((ar));   \
     archive_read_support_format_tar((ar))
 
-
-#endif // PKGUTIL_H

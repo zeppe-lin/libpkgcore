@@ -11,8 +11,7 @@
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
 
-#ifndef FS_UTILS_H
-#define FS_UTILS_H
+#pragma once
 
 #include <fstream>
 #include <string>
@@ -86,5 +85,3 @@ bool permissions_equal(const std::string& file1, const std::string& file2);
  *                 remove within `basedir`.
  */
 void file_remove(const std::string& basedir, const std::string& filename);
-
-#endif // FS_UTILS_H

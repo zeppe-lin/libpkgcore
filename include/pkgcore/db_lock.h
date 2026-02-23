@@ -9,8 +9,7 @@
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
 
-#ifndef DB_LOCK_H
-#define DB_LOCK_H
+#pragma once
 
 #include <string>
 
@@ -54,5 +53,3 @@ private:
    */
   DIR* dir;
 };
-
-#endif // DB_LOCK_H
