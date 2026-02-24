@@ -5,7 +5,7 @@
 CPPFLAGS = -D_POSIX_SOURCE -D_GNU_SOURCE -D_LARGEFILE_SOURCE \
            -D_FILE_OFFSET_BITS=64 -DNDEBUG \
            -DNAME=\"$(NAME)\" -DVERSION=\"$(VERSION)\" \
-           $(ACL) $(XATTR)
+           $(OPT_ACL_$(ACL)) $(OPT_XATTR_$(XATTR))
 CXXFLAGS = -std=c++0x \
            -pedantic \
            -Wall \
