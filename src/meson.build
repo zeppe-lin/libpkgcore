@@ -8,11 +8,11 @@ libpkgcore = library(
     'pkgutil.cpp',
   ],
   cpp_args: ['-D_FILE_OFFSET_BITS=64'],
-  include_directories : [public_inc, internal_inc],
-  dependencies : [libarchive_dep],
-  install : true,
-  version : meson.project_version(),
-  soversion : '6',
+  include_directories: [public_inc, internal_inc],
+  dependencies: [libarchive_dep],
+  install: true,
+  version: meson.project_version(),
+  soversion: '6',
 )
 
 install_headers(
@@ -20,14 +20,14 @@ install_headers(
   '../include/libpkgcore/db_lock.h',
   '../include/libpkgcore/fs_utils.h',
   '../include/libpkgcore/pkgutil.h',
-  subdir : 'libpkgcore',
+  subdir: 'libpkgcore',
 )
 
 pkgconf.generate(
   libpkgcore,
-  name : 'libpkgcore',
-  filebase : 'libpkgcore',
-  description : 'Core package management library',
-  subdirs : 'libpkgcore',
-  requires_private : ['libarchive'],
+  name: 'libpkgcore',
+  filebase: 'libpkgcore',
+  description: 'Core package management library',
+  subdirs: 'libpkgcore',
+  requires_private: ['libarchive'],
 )
