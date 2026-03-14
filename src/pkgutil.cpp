@@ -10,9 +10,11 @@
  * \copyright See COPYING for license terms and COPYRIGHT for notices.
  */
 
-#include "pkgcore/db_lock.h"
-#include "pkgcore/fs_utils.h"
-#include "pkgcore/pkgutil.h"
+#include "libpkgcore/db_lock.h"
+#include "libpkgcore/fs_utils.h"
+#include "libpkgcore/pkgutil.h"
+
+#include "libpkgcore-config.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -1644,7 +1646,7 @@ void
 pkgutil::print_version()
     const
 {
-  std::cout << NAME << " " << VERSION << std::endl;
+  std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
   std::cout << "Features:";
 #ifdef ENABLE_EXTRACT_ACL
   std::cout << " acl";
