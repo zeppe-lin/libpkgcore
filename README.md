@@ -93,6 +93,12 @@ Both:
 meson setup build -Ddefault_library=both
 ```
 
+For generic static-library packaging, disabling LTO is recommended:
+
+```sh
+meson setup build -Ddefault_library=static -Db_lto=false
+```
+
 Build type
 ----------
 
