@@ -1,0 +1,9 @@
+option('extract_acl',
+  type: 'boolean',
+  value: false,
+  description: 'Enable ACL extraction support')
+
+option('extract_xattr',
+  type: 'boolean',
+  value: false,
+  description: 'Enable xattr extraction support')
