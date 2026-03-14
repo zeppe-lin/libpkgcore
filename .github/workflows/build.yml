@@ -4,9 +4,12 @@ on:
   push:
     branches: [ "master" ]
     paths: &paths
-      - "Makefile"
-      - "config.mk"
+      - "meson.build"
+      - "meson.options"
+      - "meson_options.txt"
+      - "include/**"
       - "src/**"
+      - "man/**"
       - ".github/**"
 
   pull_request:
@@ -14,43 +17,59 @@ on:
     paths: *paths
 
 jobs:
-#  build-man:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: Install scdoc
-#        run: sudo apt-get install -y scdoc
-#
-#      - name: Generate man pages
-#        run: make -C man
-
-  build-glibc:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - name: glibc
+            container: ""
+            install: |
+              apt-get update
+              apt-get install -y \
+                meson ninja-build pkg-config g++ \
+                libarchive-dev libacl1-dev attr
+          - name: musl
+            container: "alpine:latest"
+            install: |
+              apk add --no-cache \
+                build-base meson ninja pkgconf \
+                libarchive-dev acl-dev attr-dev
+
+        cfg:
+          - name: default
+            acl: false
+            xattr: false
+          - name: xattr
+            acl: false
+            xattr: true
+          - name: acl+xattr
+            acl: true
+            xattr: true
+
+    name: ${{ matrix.env.name }} / ${{ matrix.cfg.name }}
+    container: ${{ matrix.env.container != '' && matrix.env.container || null }}
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
 
       - name: Install build dependencies
-        run: sudo apt-get install -y libarchive-dev
+        run: ${{ matrix.env.install }}
 
-      - name: Build (glibc)
-        run: make -C src
+      - name: Configure
+        run: |
+          meson setup build \
+            --buildtype=plain \
+            --wrap-mode=nodownload \
+            -Db_lto=false \
+            -Db_pie=true \
+            -Dextract_acl=${{ matrix.cfg.acl }} \
+            -Dextract_xattr=${{ matrix.cfg.xattr }}
 
-      - name: Build with enabled ACL and xattr
-        run: make -C src ACL=y XATTR=y clean all
+      - name: Compile
+        run: meson compile -C build -v
 
-  build-musl:
-    runs-on: ubuntu-latest
-    container: alpine:latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Install build dependencies
-        run: apk add build-base g++ make libarchive-dev
-
-      - name: Build (musl)
-        run: make -C src
-
-      - name: Build with enabled ACL and xattr
-        run: make -C src ACL=y XATTR=y clean all
-
+      - name: Install to staging
+        run: |
+          DESTDIR="$PWD/stage" meson install -C build
