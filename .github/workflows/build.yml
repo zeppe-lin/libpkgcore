@@ -26,8 +26,8 @@ jobs:
           - name: glibc
             container: ""
             install: |
-              apt-get update
-              apt-get install -y \
+              sudo apt-get update
+              sudo apt-get install -y \
                 meson ninja-build pkg-config g++ \
                 libarchive-dev libacl1-dev attr
           - name: musl
