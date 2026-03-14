@@ -9,7 +9,8 @@ installation, removal, and information queries.
 
 This distribution is a fork of CRUX `pkgutils` at commit 9ca0da6
 (Sat Nov 17 2018) with the following differences:
-  * Code organized into a standalone library (`libpkgutils`)
+  * Code organized into a standalone library (`libpkgcore`) and
+    utilities ([pkgutils](https://github.com/zeppe-lin/pkgutils))
   * Support for `zstd` archive formats
   * Optional support for preserving ACLs and xattrs
 
@@ -26,7 +27,9 @@ REQUIREMENTS
 Build-time
 ----------
   * C++11 compiler (GCC 4.8.1+, Clang 3.3+)
-  * POSIX `sh(1p)`, `make(1p)`, and "mandatory utilities"
+  * Meson
+  * Ninja
+  * `pkg-config(1)`
   * `libarchive(3)` headers and library
 
 ---
@@ -34,21 +37,111 @@ Build-time
 INSTALLATION
 ============
 
-To build and install:
+General
+-------
 
 ```sh
-make
-make install   # as root
+# Configure
+meson setup build
+
+# Compile
+meson compile -C build
+
+# Install
+meson install -C build
 ```
 
-Configuration parameters are defined in `config.mk`.
+Options
+-------
+
+Enable ACL support:
+
+```sh
+meson setup build -Dextract_acl=true
+```
+
+Enable xattr support:
+
+```sh
+meson setup build -Dextract_xattr=true
+```
+
+Enable both:
+
+```sh
+meson setup build -Dextract_acl=true -Dextract_xattr=true
+```
+
+Library type
+------------
+
+Shared:
+
+```sh
+meson setup build -Ddefault_library=shared
+```
+
+Static:
+
+```sh
+meson setup build -Ddefault_library=static
+```
+
+Both:
+
+```sh
+meson setup build -Ddefault_library=both
+```
+
+Build type
+----------
+
+Debug:
+
+```sh
+meson setup build -Dbuildtype=debug
+```
+
+Release:
+
+```sh
+meson setup build -Dbuildtype=release -Db_ndebug=if-release
+```
+
+pkg-config
+----------
+
+Compiler flags:
+
+```sh
+pkg-config --cflags libpkgcore
+```
+
+Link flags:
+
+```sh
+pkg-config --libs libpkgcore
+```
+
+Static link flags:
+
+```sh
+pkg-config --static --libs libpkgcore
+```
+
+Layout
+------
+
+- `include/` - public headers
+- `src/` - library sources
+- `internal/` - internal headers
 
 ---
 
 DOCUMENTATION
 =============
 
-Library API is documented in header files under `include/pkgcore`.
+Library API is documented in header files under `include/libpkgcore`.
 
 ---
 
