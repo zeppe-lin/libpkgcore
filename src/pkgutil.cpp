@@ -44,6 +44,30 @@
 #include <archive_entry.h>
 
 /*!
+ * \def INIT_ARCHIVE(ar)
+ * \brief Initializes a libarchive read object for common archive
+ *        formats.
+ * \param ar The archive read object (`struct archive*`) to
+ *           initialize.
+ *
+ * \details
+ * This macro simplifies the initialization of a libarchive read
+ * object by enabling support for various compression filters and the
+ * tar format.  It enables gzip, bzip2, xz, lzip, and zstd
+ * decompression filters, as well as tar archive format support.
+ *
+ * This macro should be used to initialize `struct archive*` objects
+ * before using them to read package archives.
+ */
+#define INIT_ARCHIVE(ar)                      \
+    archive_read_support_filter_gzip((ar));   \
+    archive_read_support_filter_bzip2((ar));  \
+    archive_read_support_filter_xz((ar));     \
+    archive_read_support_filter_lzip((ar));   \
+    archive_read_support_filter_zstd((ar));   \
+    archive_read_support_format_tar((ar))
+
+/*!
  * \def DEFAULT_BYTES_PER_BLOCK
  * \brief Defines the default block size for archive operations.
  *
