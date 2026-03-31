@@ -15,6 +15,15 @@ libpkgcore = library(
   soversion: '6',
 )
 
+libpkgcore_dep = declare_dependency(
+  link_with: libpkgcore,
+  include_directories: public_inc,
+  dependencies: [libarchive_dep],
+  compile_args: ['-D_FILE_OFFSET_BITS=64'],
+)
+
+meson.override_dependency('libpkgcore', libpkgcore_dep)
+
 install_headers(
   '../include/libpkgcore/pkgcore.h',
   '../include/libpkgcore/db_lock.h',
