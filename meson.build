@@ -10,7 +10,12 @@ project(
   ],
 )
 
-libarchive_dep = dependency('libarchive', required: true)
+libarchive_dep = dependency(
+  'libarchive',
+  required: true,
+  static: get_option('prefer_static_deps'),
+)
+
 pkgconf = import('pkgconfig')
 
 subdir('internal')

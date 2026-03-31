@@ -7,3 +7,8 @@ option('extract_xattr',
   type: 'boolean',
   value: false,
   description: 'Enable xattr extraction support')
+
+option('prefer_static_deps',
+  type: 'boolean',
+  value: false,
+  description: 'Prefer static variants of external dependencies when available')
