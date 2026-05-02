@@ -1,0 +1,71 @@
+LIBPKGCORE(7)
+
+# NAME
+
+libpkgcore - package database and archive manipulation library
+
+# DESCRIPTION
+
+libpkgcore is a C++ library providing primitives for:
+
+- package database management
+- package installation and removal
+- filesystem-level operations
+- archive inspection and extraction
+
+The library is stateful and exception-driven.
+
+# ARCHITECTURE
+
+The system is composed of three layers:
+
+- db_lock: directory-level locking using RAII
+- fs_utils: low-level filesystem helpers
+- pkgutil: package database and transaction logic
+
+pkgutil is the central component and maintains an in-memory
+representation of the package database.
+
+# DATA MODEL
+
+The package database is represented as:
+
+- packages_t: map<string, pkginfo_t>
+- pkginfo_t:
+	- version (string)
+	- files (set<string>)
+
+All operations mutate or query this structure.
+
+# EXECUTION MODEL
+
+Typical flow:
+
+. acquire lock (db_lock)
+. pkgutil::db_open()
+. perform operations
+. pkgutil::db_commit()
+
+Failure to commit results in lost state.
+
+# ERROR HANDLING
+
+All high-level operations throw std::runtime_error on failure.
+
+Lower-level utilities may return boolean status.
+
+No errno contract is provided.
+
+# THREAD SAFETY
+
+The library is not thread-safe.
+
+External synchronization is required.
+
+# SEE ALSO
+
+*db\_lock*(3),
+*fs\_utils*(3),
+*pkgutil*(3)
+
+; vim: ft=scdoc cc=72 tw=70

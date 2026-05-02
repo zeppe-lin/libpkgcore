@@ -1,0 +1,147 @@
+PKGUTIL(3)
+
+# NAME
+
+pkgutil - package database and installation utility
+
+# SYNOPSIS
+
+```
+#include <libpkgcore/pkgutil.h>
+
+class pkgutil {
+public:
+    pkgutil(const std::string& name);
+
+    void db_open(const std::string& path);
+    void db_commit();
+
+    void db_add_pkg(const std::string& name, const pkginfo_t& info);
+    bool db_find_pkg(const std::string& name);
+
+    void db_rm_pkg(const std::string& name);
+    void db_rm_pkg(const std::string& name,
+                   const std::set<std::string>& keep_list);
+
+    void db_rm_files(std::set<std::string> files,
+                     const std::set<std::string>& keep_list);
+
+    std::set<std::string>
+    db_find_conflicts(const std::string& name,
+                      const pkginfo_t& info);
+
+    std::pair<std::string, pkginfo_t>
+    pkg_open(const std::string& filename) const;
+
+    void pkg_install(const std::string& filename,
+                     const std::set<std::string>& keep_list,
+                     const std::set<std::string>& non_install_list,
+                     bool upgrade) const;
+
+    void ldconfig() const;
+    void pkg_footprint(const std::string& filename) const;
+    void print_version() const;
+
+    const packages_t& getPackages() const;
+};
+```
+
+# DESCRIPTION
+
+*pkgutil* encapsulates package database state and package
+manipulation operations.
+
+It maintains an in-memory map of installed packages and provides
+methods for synchronization with on-disk state.
+
+# STATE
+
+Internal state includes:
+
+- root (filesystem root)
+- packages (map of installed packages)
+
+*db\_open()* must be called before most operations.
+
+# DATABASE OPERATIONS
+
+*db\_open()*
+	Loads package database into memory.
+
+*db\_commit()*
+	Writes in-memory state to disk using a safe write strategy.
+
+*db\_add\_pkg()*
+	Adds package to in-memory database.
+
+*db\_find\_pkg()*
+	Checks for existence.
+
+*db\_rm\_pkg()*
+	Removes package and deletes owned files.
+
+*db\_rm\_files()*
+	Removes files and updates ownership records.
+
+*db\_find\_conflicts()*
+	Detects file conflicts with existing packages.
+
+# PACKAGE OPERATIONS
+
+*pkg\_open()*
+	Reads package archive and extracts metadata.
+
+*pkg\_install()*
+	Extracts archive to filesystem and updates state.
+
+	Behavior modifiers:
+		- keep_list: do not overwrite/remove these paths
+		- non_install_list: skip extraction
+		- upgrade: alters conflict semantics
+
+*pkg\_footprint()*
+	Prints archive contents in footprint format.
+
+# SYSTEM INTEGRATION
+
+*ldconfig()*
+	Executes system ldconfig utility.
+
+*print\_version()*
+	Outputs library version and feature information.
+
+# ERROR HANDLING
+
+All mutating and I/O operations throw *std::runtime\_error* on failure.
+
+Partial state mutation may occur before failure.
+
+No transactional rollback is guaranteed.
+
+# INVARIANTS
+
+- packages map reflects last successful *db\_open*/*db\_commit* cycle
+- file ownership must remain consistent across packages
+- *db\_commit()* is required for persistence
+
+# THREAD SAFETY
+
+Not thread-safe.
+
+# NOTES
+
+The class combines:
+
+- database logic
+- filesystem mutation
+- archive handling
+
+Callers must enforce correct sequencing and locking.
+
+# SEE ALSO
+
+*db\_lock*(3),
+*fs\_utils*(3),
+*libpkgcore*(7)
+
+; vim: ft=scdoc cc=72 tw=70

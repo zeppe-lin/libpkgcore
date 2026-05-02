@@ -1,0 +1,65 @@
+DB_LOCK(3)
+
+# NAME
+
+db\_lock - RAII lock for package database directory
+
+# SYNOPSIS
+
+```
+#include <libpkgcore/db_lock.h>
+
+class db_lock {
+public:
+    db_lock(const std::string& root, bool exclusive = true);
+    ~db_lock();
+};
+```
+
+# DESCRIPTION
+
+*db\_lock* provides scoped locking of the package database directory.
+
+The lock is acquired during construction and released during
+destruction. This enforces correct lock lifetime through object
+scope.
+
+The lock is applied to the directory specified by:
+
+```
+root + pkgutil::PKG_DIR
+```
+
+# SEMANTICS
+
+- exclusive = true:
+	exclusive lock, intended for mutation operations
+
+- exclusive = false:
+	shared lock, intended for read-only access
+
+# ERRORS
+
+Throws *std::runtime\_error* if:
+
+- directory cannot be opened
+- lock acquisition fails
+
+# LIFETIME
+
+The lock is held as long as the *db\_lock* object exists.
+
+Destroying the object releases the lock.
+
+# NOTES
+
+This class relies on DIR\* and underlying filesystem semantics.
+Behavior depends on platform locking guarantees.
+
+# SEE ALSO
+
+*fs\_utils*(3),
+*pkgutil*(3),
+*libpkgcore*(7)
+
+; vim: ft=scdoc cc=72 tw=70
