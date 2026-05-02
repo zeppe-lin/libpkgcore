@@ -20,5 +20,5 @@ pkgconf = import('pkgconfig')
 
 subdir('internal')
 subdir('src')
-#subdir('man')
+subdir('man')
 #subdir('tests')
