@@ -29,6 +29,8 @@ Build-time
   * C++11 compiler (GCC 4.8.1+, Clang 3.3+)
   * Meson
   * Ninja
+  * `scdoc(1)` to generate manual pages
+    (enabled by default via the `manpages` option)
   * `pkg-config(1)`
   * `libarchive(3)` headers and library
 
