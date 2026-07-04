@@ -10,10 +10,18 @@ project(
   ],
 )
 
+want_static = get_option('link_mode') == 'static'
+if want_static and get_option('default_library') == 'both'
+  error('''
+Invalid configuration: link_mode=static requires default_library=static.
+See project README: Link Mode.
+''')
+endif
+
 libarchive_dep = dependency(
   'libarchive',
   required: true,
-  static: get_option('prefer_static_deps'),
+  static: want_static,
 )
 
 pkgconf = import('pkgconfig')
