@@ -74,32 +74,21 @@ Enable both:
 meson setup build -Dextract_acl=true -Dextract_xattr=true
 ```
 
-Library type
-------------
+Link Mode
+---------
 
-Shared:
+The build system supports controlling how external dependencies are
+linked.
 
-```sh
-meson setup build -Ddefault_library=shared
-```
+- `default_library` controls whether `libpkgcore` itself is built as a
+  static library, shared library, or both.
+- `link_mode` controls whether dependencies are linked dynamically or
+  statically.
 
-Static:
+`link_mode=static` requires `default_library=static`.
 
-```sh
-meson setup build -Ddefault_library=static
-```
-
-Both:
-
-```sh
-meson setup build -Ddefault_library=both
-```
-
-For generic static-library packaging, disabling LTO is recommended:
-
-```sh
-meson setup build -Ddefault_library=static -Db_lto=false
-```
+Shared library builds cannot reliably link against non-PIC static
+dependencies.
 
 Build type
 ----------
