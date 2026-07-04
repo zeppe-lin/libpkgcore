@@ -1,0 +1,35 @@
+LIBPKGCORE(3)
+
+# NAME
+
+libpkgcore - umbrella header for libpkgcore public API
+
+# SYNOPSIS
+
+```
+#include <libpkgcore/libpkgcore.h>
+```
+
+# DESCRIPTION
+
+Including *libpkgcore.h* pulls in all public interfaces of
+*libpkgcore*(7):
+
+- *db_lock*(3): RAII database locking
+- *fs_utils*(3): filesystem helpers
+- *pkgutil*(3): package database and transaction logic
+
+Consumers may include more specific headers if desired.
+
+# NOTES
+
+The API is C++11 and later.
+
+# SEE ALSO
+
+*db_lock*(3),
+*fs_utils*(3),
+*pkgutil*(3),
+*libpkgcore*(7)
+
+; vim: ft=scdoc
