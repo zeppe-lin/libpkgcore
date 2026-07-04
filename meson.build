@@ -1,7 +1,7 @@
 project(
   'libpkgcore',
   'cpp',
-  version: '6.4',
+  version: '6.5',
   default_options: [
     'cpp_std=c++11',
     'warning_level=3',
