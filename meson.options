@@ -1,19 +1,28 @@
-option('manpages',
+option(
+  'link_mode',
+  type: 'combo',
+  choices: ['shared', 'static'],
+  value: 'shared',
+  description: 'How libpkgcore links against external dependencies'
+)
+
+option(
+  'manpages',
   type: 'boolean',
   value: true,
-  description: 'Build and install manual pages')
+  description: 'Build and install manual pages'
+)
 
-option('extract_acl',
+option(
+  'extract_acl',
   type: 'boolean',
   value: false,
-  description: 'Enable ACL extraction support')
+  description: 'Enable ACL extraction support'
+)
 
-option('extract_xattr',
+option(
+  'extract_xattr',
   type: 'boolean',
   value: false,
-  description: 'Enable xattr extraction support')
-
-option('prefer_static_deps',
-  type: 'boolean',
-  value: false,
-  description: 'Prefer static variants of external dependencies when available')
+  description: 'Enable xattr extraction support'
+)
