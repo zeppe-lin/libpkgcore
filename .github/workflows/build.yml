@@ -38,15 +38,10 @@ jobs:
                 scdoc libarchive-dev acl-dev attr-dev
 
         cfg:
-          - name: default
-            acl: false
-            xattr: false
-          - name: xattr
-            acl: false
-            xattr: true
-          - name: acl+xattr
-            acl: true
-            xattr: true
+          - name: shared
+            link_mode: shared
+          - name: static
+            link_mode: static
 
     name: ${{ matrix.env.name }} / ${{ matrix.cfg.name }}
     container: ${{ matrix.env.container != '' && matrix.env.container || null }}
@@ -62,10 +57,10 @@ jobs:
           meson setup build \
             --buildtype=plain \
             --wrap-mode=nodownload \
-            -Db_lto=false \
-            -Db_pie=true \
-            -Dextract_acl=${{ matrix.cfg.acl }} \
-            -Dextract_xattr=${{ matrix.cfg.xattr }}
+            -D default_library=${{ matrix.cfg.link_mode }} \
+            -D link_mode=${{ matrix.cfg.link_mode }} \
+            -D extract_acl=true \
+            -D extract_xattr=true
 
       - name: Compile
         run: meson compile -C build -v
