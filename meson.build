@@ -5,7 +5,7 @@ project(
   default_options: [
     'cpp_std=c++11',
     'warning_level=3',
-    'default_library=both',
+    'default_library=shared',
     'b_ndebug=if-release',
   ],
 )
