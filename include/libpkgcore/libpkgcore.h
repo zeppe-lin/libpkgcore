@@ -1,5 +1,5 @@
 /*!
- * \file pkgcore.h
+ * \file libpkgcore.h
  * \brief Umbrella header for libpkgcore public API.
  *
  * Including this header pulls in all public interfaces:
