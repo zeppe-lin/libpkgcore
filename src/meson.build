@@ -25,7 +25,7 @@ libpkgcore_dep = declare_dependency(
 meson.override_dependency('libpkgcore', libpkgcore_dep)
 
 install_headers(
-  '../include/libpkgcore/pkgcore.h',
+  '../include/libpkgcore/libpkgcore.h',
   '../include/libpkgcore/db_lock.h',
   '../include/libpkgcore/fs_utils.h',
   '../include/libpkgcore/pkgutil.h',
