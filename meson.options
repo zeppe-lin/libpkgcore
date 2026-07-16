@@ -14,6 +14,13 @@ option(
 )
 
 option(
+  'tests',
+  type: 'feature',
+  value: 'enabled',
+  description: 'Build unit tests'
+)
+
+option(
   'extract_acl',
   type: 'boolean',
   value: false,
