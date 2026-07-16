@@ -2,6 +2,7 @@ project(
   'libpkgcore',
   'cpp',
   version: '6.5',
+  meson_version: '>=1.2.0',
   default_options: [
     'cpp_std=c++11',
     'warning_level=3',
