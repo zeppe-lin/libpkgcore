@@ -56,6 +56,24 @@ Lower-level utilities may return boolean status.
 
 No errno contract is provided.
 
+# SIGNALS AND INTERRUPTION
+
+*libpkgcore* does not install signal handlers or alter signal masks.
+Constructing a library object has no process-wide signal side effects.
+
+Signal handling is process policy and remains the responsibility of
+the consumer.
+A command-line frontend may defer termination while a filesystem and
+database mutation sequence is in progress.
+A large orchestrator may instead translate signals into its own
+cancellation policy.
+
+The current mutating primitives do not provide transactional rollback.
+Deferring signals prevents one class of interruption, but does not
+protect against process crashes, *SIGKILL*, I/O failures, or power
+loss.
+Consumers must not present signal deferral as an atomicity guarantee.
+
 # THREAD SAFETY
 
 The library is not thread-safe.

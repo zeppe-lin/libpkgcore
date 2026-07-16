@@ -72,6 +72,10 @@ public:
    * \brief Constructor for pkgutil class.
    * \param name Name of the utility using pkgutil
    *             (e.g., "pkgadd", "pkgrm").
+   *
+   * Constructing a pkgutil object does not install signal handlers or
+   * alter the calling thread's signal mask.  Signal policy belongs to
+   * the library consumer.
    */
   pkgutil(const std::string& name);
 

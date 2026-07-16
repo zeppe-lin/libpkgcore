@@ -18,7 +18,6 @@
 
 #include <algorithm>
 #include <cerrno>
-#include <csignal>
 #include <cstdio>
 #include <cstring>
 #include <fstream>
@@ -140,27 +139,10 @@ const char* pkgutil::LDCONFIG       = "/sbin/ldconfig";
  * \brief Constructor for pkgutil class.
  * \param name Name of the utility using pkgutil
  *             (e.g., "pkgadd", "pkgrm").
- *
- * \details
- * The constructor initializes the `pkgutil` object with the name of
- * the utility that is using it.  It also sets up signal handling to
- * ignore certain signals (SIGHUP, SIGINT, SIGQUIT, SIGTERM) to
- * prevent interruption of package management operations by these
- * signals.
-*/
+ */
 pkgutil::pkgutil(const std::string& name)
     : utilname(name)
 {
-  /*
-   * Ignore signals to prevent interruption of critical operations.
-   */
-  struct sigaction sa;
-  memset(&sa, 0, sizeof(sa));
-  sa.sa_handler = SIG_IGN;
-  sigaction(SIGHUP,  &sa, 0);
-  sigaction(SIGINT,  &sa, 0);
-  sigaction(SIGQUIT, &sa, 0);
-  sigaction(SIGTERM, &sa, 0);
 }
 
 /*!

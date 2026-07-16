@@ -118,6 +118,23 @@ Partial state mutation may occur before failure.
 
 No transactional rollback is guaranteed.
 
+# SIGNALS AND INTERRUPTION
+
+Constructing a *pkgutil* object does not install signal handlers or
+alter the calling thread's signal mask.
+
+The caller owns process signal policy.
+Read-only consumers normally need no special handling.
+Consumers composing mutating primitives must define the critical
+section in which interruption is accepted, deferred, or translated
+into cooperative cancellation.
+
+Deferring *SIGHUP*, *SIGINT*, *SIGQUIT*, or *SIGTERM* around a
+mutation sequence may prevent user-requested termination between
+related filesystem and database operations.
+It does not provide rollback and does not protect against *SIGKILL*,
+crashes, I/O failures, or power loss.
+
 # INVARIANTS
 
 - packages map reflects last successful *db\_open*/*db\_commit* cycle
