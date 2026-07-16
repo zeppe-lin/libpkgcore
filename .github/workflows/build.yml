@@ -35,7 +35,8 @@ jobs:
             install: |
               apk add --no-cache \
                 build-base meson ninja pkgconf \
-                scdoc libarchive-dev acl-dev attr-dev
+                scdoc libarchive-dev acl-dev attr-dev \
+                expat-dev expat-static
 
         cfg:
           - name: shared
