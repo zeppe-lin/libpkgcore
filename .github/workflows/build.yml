@@ -65,6 +65,9 @@ jobs:
       - name: Compile
         run: meson compile -C build -v
 
+      - name: Run tests
+        run: meson test -C build -v
+
       - name: Install to staging
         run: |
           DESTDIR="$PWD/stage" meson install -C build
